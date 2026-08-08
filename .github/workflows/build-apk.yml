@@ -24,13 +24,13 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install dependencies
+      - name: Install dependencies and TypeScript
         run: |
           npm install
           npm install -D typescript @types/node
 
       - name: Grant execute permission for gradlew
-        chmod +x android/gradlew
+        run: chmod +x android/gradlew
 
       - name: Sync Capacitor Android project
         run: npx cap sync android
