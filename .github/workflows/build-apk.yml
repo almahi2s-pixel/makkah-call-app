@@ -30,7 +30,7 @@ jobs:
           npm install -D typescript @types/node
 
       - name: Grant execute permission for gradlew
-        run: chmod +x android/gradlew
+        run: cchmod +x android/gradlew
 
       - name: Sync Capacitor Android project
         run: npx cap sync android
