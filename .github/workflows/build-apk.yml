@@ -24,9 +24,10 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install dependencies and TypeScript
+      - name: Install dependencies and TypeScript- name: Install dependencies and TypeScript
         run: |
-          npm ci || npm install
+          npm install
+          npm install -D typescript @types/node
           npm install -D typescript @types/node
 
       - name: Grant execute permission for gradlew
