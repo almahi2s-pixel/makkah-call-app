@@ -1,0 +1,17 @@
+{
+  "name": "makkah-call-app",
+  "version": "1.0.0",
+  "description": "مكة كول - تطبيق اتصال وخدمات متكامل",
+  "main": "index.js",
+  "scripts": {
+    "sync": "npx cap sync android",
+    "open:android": "npx cap open android"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor/android": "^8.5.0",
+    "@capacitor/cli": "^8.5.0",
+    "@capacitor/core": "^8.5.0"
+  }
+}
