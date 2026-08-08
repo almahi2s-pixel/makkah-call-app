@@ -2,46 +2,56 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ "main", "master" ]
-  workflow_dispatch:
+    branches: [ main, master ]
+  workflow_dispatch: {}
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
-          java-version: '17'
+          distribution: 'temurin'
+          java-version: '21'
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - name: Install dependencies and TypeScript
+      - name: Install dependencies
         run: |
           npm install
           npm install -D typescript @types/node
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x android/gradlew
-
       - name: Sync Capacitor Android project
         run: npx cap sync android
 
-      - name: Build Debug APK
-        run: |
-          cd android
-          ./gradlew assembleDebug --stacktrace
+      - name: Grant execute permission for gradlew
+        run: chmod +x android/gradlew
 
-      - name: Upload Debug APK
+      - name: Build debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
           name: makkah-call-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Build release APK (unsigned)
+        working-directory: android
+        run: ./gradlew assembleRelease --no-daemon
+        continue-on-error: true
+
+      - name: Upload release APK (unsigned)
+        uses: actions/upload-artifact@v4
+        with:
+          name: makkah-call-release-apk-unsigned
+          path: android/app/build/outputs/apk/release/app-release-unsigned.apk
+        continue-on-error: true
